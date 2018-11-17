@@ -1,0 +1,232 @@
+﻿#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="2e97c4f9-6b93-4ee5-bca1-9f890658b076" LowerBound="1.1" HigherBound="55.1">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="BizTalk.T4PipelineDemo" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="4402da89-08cf-4c52-a1ae-634faf4296f2" ParentLink="Module_PortType" LowerBound="4.1" HigherBound="11.1">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="ReceiveSendEmailPortType" />
+            <om:Property Name="Signal" Value="True" />
+            <om:Element Type="OperationDeclaration" OID="d9613aec-6318-4c6a-9581-4b2fa5d6ee0b" ParentLink="PortType_OperationDeclaration" LowerBound="6.1" HigherBound="10.1">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Receive" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="MessageRef" OID="f613ded3-6f17-409a-8dcf-ff86c3f92c20" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="8.13" HigherBound="8.29">
+                    <om:Property Name="Ref" Value="BizTalk.T4PipelineDemo.SendEmailRequest" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="ecfb4dab-315c-4698-8c9e-c39b1e9fc7e3" ParentLink="Module_PortType" LowerBound="11.1" HigherBound="18.1">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="MailPortType" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="b9ab5885-7d6b-4650-a9b5-6c92fe3d4b6d" ParentLink="PortType_OperationDeclaration" LowerBound="13.1" HigherBound="17.1">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Send" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="MessageRef" OID="e4b4c2ad-9104-41c4-bf66-961af026bad3" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="15.13" HigherBound="15.28">
+                    <om:Property Name="Ref" Value="BizTalk.T4PipelineDemo.TemplateRequest" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="b3a1c0b9-7efc-40fe-9597-8eb34b83f6d8" ParentLink="Module_ServiceDeclaration" LowerBound="18.1" HigherBound="54.1">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="ProcessEmail" />
+            <om:Property Name="Signal" Value="True" />
+            <om:Element Type="MessageDeclaration" OID="8fb2b63f-e414-4517-ba59-59b18f2e372e" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="25.1" HigherBound="26.1">
+                <om:Property Name="Type" Value="BizTalk.T4PipelineDemo.SendEmailRequest" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendEmailRequestMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="a2703c1d-327f-4892-b8a8-3dea3250916b" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="26.1" HigherBound="27.1">
+                <om:Property Name="Type" Value="BizTalk.T4PipelineDemo.TemplateRequest" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="TemplateRequestMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="ServiceBody" OID="3b4ee8d9-4993-44f7-b9ba-4b270ee92b33" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="6d36fc27-499f-4cb2-a1f7-2bab24292010" ParentLink="ServiceBody_Statement" LowerBound="29.1" HigherBound="31.1">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="ReceiveSendEmail" />
+                    <om:Property Name="MessageName" Value="SendEmailRequestMsg" />
+                    <om:Property Name="OperationName" Value="Receive" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Rcv_SendEmail" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Scope" OID="e14fd59c-2c89-4e45-8198-40dda5b42ee4" ParentLink="ServiceBody_Statement" LowerBound="31.1" HigherBound="52.1">
+                    <om:Property Name="InitializedTransactionType" Value="True" />
+                    <om:Property Name="IsSynchronized" Value="False" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="MainScope" />
+                    <om:Property Name="Signal" Value="True" />
+                    <om:Element Type="Construct" OID="e6c3ed30-16e6-4b60-bf9e-46df84f294fb" ParentLink="ComplexStatement_Statement" LowerBound="36.1" HigherBound="46.1">
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Xform_SendEmail_To_TemplateRequest" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="Transform" OID="c3425f06-32d1-4df7-9ab0-52749bd02f3b" ParentLink="ComplexStatement_Statement" LowerBound="39.1" HigherBound="41.1">
+                            <om:Property Name="ClassName" Value="BizTalk.T4PipelineDemo.Map.SendEmail_To_TemplateRequest" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="X_SendEmail_To_TemplateRequest" />
+                            <om:Property Name="Signal" Value="False" />
+                            <om:Element Type="MessagePartRef" OID="77918ee1-dc9c-4cae-a031-019d9c5a84a8" ParentLink="Transform_InputMessagePartRef" LowerBound="40.115" HigherBound="40.134">
+                                <om:Property Name="MessageRef" Value="SendEmailRequestMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_1" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                            <om:Element Type="MessagePartRef" OID="f760bdee-5f20-4191-9ba5-a4d5f4c85910" ParentLink="Transform_OutputMessagePartRef" LowerBound="40.36" HigherBound="40.54">
+                                <om:Property Name="MessageRef" Value="TemplateRequestMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_2" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="MessageAssignment" OID="dfa7577d-bdcb-455c-a6ae-3a9d36abf85e" ParentLink="ComplexStatement_Statement" LowerBound="41.1" HigherBound="45.1">
+                            <om:Property Name="Expression" Value="TemplateRequestMsg(SMTP.Subject) = SendEmailRequestMsg.Subject;&#xD;&#xA;TemplateRequestMsg(SMTP.From) = SendEmailRequestMsg.From;&#xD;&#xA;TemplateRequestMsg(SMTP.SMTPAuthenticate) = 0;&#xD;&#xA;" />
+                            <om:Property Name="ReportToAnalyst" Value="False" />
+                            <om:Property Name="Name" Value="EmailRequestMsg" />
+                            <om:Property Name="Signal" Value="True" />
+                        </om:Element>
+                        <om:Element Type="MessageRef" OID="2fed392c-22d9-49de-9e85-390aa0907fff" ParentLink="Construct_MessageRef" LowerBound="37.31" HigherBound="37.49">
+                            <om:Property Name="Ref" Value="TemplateRequestMsg" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="VariableAssignment" OID="5919785e-d101-4081-a22e-736131a05ee4" ParentLink="ComplexStatement_Statement" LowerBound="46.1" HigherBound="48.1">
+                        <om:Property Name="Expression" Value="MailPort(Microsoft.XLANGs.BaseTypes.Address) = &quot;mailto:&quot; + SendEmailRequestMsg.To;&#xD;&#xA;" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="SetDynamicPortProperties" />
+                        <om:Property Name="Signal" Value="True" />
+                    </om:Element>
+                    <om:Element Type="Send" OID="7efa6d3e-5816-4cd2-9e6d-cf5149fdd918" ParentLink="ComplexStatement_Statement" LowerBound="48.1" HigherBound="50.1">
+                        <om:Property Name="PortName" Value="MailPort" />
+                        <om:Property Name="MessageName" Value="TemplateRequestMsg" />
+                        <om:Property Name="OperationName" Value="Send" />
+                        <om:Property Name="OperationMessageName" Value="Request" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Snd_Email" />
+                        <om:Property Name="Signal" Value="True" />
+                    </om:Element>
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="edb49fdc-7840-46dd-8ed4-57080048587d" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="21.1" HigherBound="23.1">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.T4PipelineDemo.ReceiveSendEmailPortType" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ReceiveSendEmail" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="LogicalBindingAttribute" OID="f41fd746-561f-4414-9974-9abd6d57a296" ParentLink="PortDeclaration_CLRAttribute" LowerBound="21.1" HigherBound="22.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="fe47d700-1a35-4d78-91aa-99f2ae30089c" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="23.1" HigherBound="25.1">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.T4PipelineDemo.MailPortType" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="MailPort" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="PhysicalBindingAttribute" OID="56db42f9-ed0c-4eae-b8c2-1d8fc51b9f4d" ParentLink="PortDeclaration_CLRAttribute" LowerBound="23.1" HigherBound="24.1">
+                    <om:Property Name="InPipeline" Value="Microsoft.BizTalk.DefaultPipelines.XMLReceive" />
+                    <om:Property Name="OutPipeline" Value="Microsoft.BizTalk.DefaultPipelines.XMLTransmit" />
+                    <om:Property Name="TransportType" Value="HTTP" />
+                    <om:Property Name="URI" Value="http://tempURI" />
+                    <om:Property Name="IsDynamic" Value="True" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module BizTalk.T4PipelineDemo
+{
+    internal porttype ReceiveSendEmailPortType
+    {
+        oneway Receive
+        {
+            SendEmailRequest
+        };
+    };
+    internal porttype MailPortType
+    {
+        oneway Send
+        {
+            TemplateRequest
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service ProcessEmail
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements ReceiveSendEmailPortType ReceiveSendEmail;
+        [Microsoft.XLANGs.BaseTypes.PhysicalBinding(typeof(Microsoft.BizTalk.DefaultPipelines.XMLTransmit))]
+        port uses dynamic MailPortType MailPort;
+        message SendEmailRequest SendEmailRequestMsg;
+        message TemplateRequest TemplateRequestMsg;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("6d36fc27-499f-4cb2-a1f7-2bab24292010")]
+            activate receive (ReceiveSendEmail.Receive, SendEmailRequestMsg);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("e14fd59c-2c89-4e45-8198-40dda5b42ee4")]
+            scope
+            {
+                body
+                {
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("e6c3ed30-16e6-4b60-bf9e-46df84f294fb")]
+                    construct TemplateRequestMsg
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("c3425f06-32d1-4df7-9ab0-52749bd02f3b")]
+                        transform (TemplateRequestMsg) = BizTalk.T4PipelineDemo.Map.SendEmail_To_TemplateRequest (SendEmailRequestMsg);
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("dfa7577d-bdcb-455c-a6ae-3a9d36abf85e")]
+                        TemplateRequestMsg(SMTP.Subject) = SendEmailRequestMsg.Subject;
+                        TemplateRequestMsg(SMTP.From) = SendEmailRequestMsg.From;
+                        TemplateRequestMsg(SMTP.SMTPAuthenticate) = 0;
+                    }
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("5919785e-d101-4081-a22e-736131a05ee4")]
+                    MailPort(Microsoft.XLANGs.BaseTypes.Address) = "mailto:" + SendEmailRequestMsg.To;
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("7efa6d3e-5816-4cd2-9e6d-cf5149fdd918")]
+                    send (MailPort.Send, TemplateRequestMsg);
+                }
+            }
+        }
+    }
+}
+

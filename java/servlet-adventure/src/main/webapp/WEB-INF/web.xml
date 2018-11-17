@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+    <display-name>dogweb</display-name>
+
+    <context-param>
+        <param-name>foo</param-name>
+        <param-value>12341234</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>watermelon</servlet-name>
+        <servlet-class>net.bencode.servlet.WatermelonServlet</servlet-class>
+        
+        <init-param>
+            <param-name>driver</param-name>
+            <param-value>org.postgresql.Driver</param-value>
+        </init-param>
+        
+        <init-param>
+            <param-name>url</param-name>
+            <param-value>jdbc:postgresql://localhost/eden</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>drpepper</servlet-name>
+        <servlet-class>net.bencode.servlet.DrPepperServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>kernel</servlet-name>
+        <jsp-file>/kernel.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>watermelon</servlet-name>
+        <url-pattern>/fruit/summer/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>drpepper</servlet-name>
+        <url-pattern>*.dr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>drpepper</servlet-name>
+        <url-pattern>/yummy</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>kernel</servlet-name>
+        <url-pattern>/kernel</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>FunFilter</filter-name>
+        <filter-class>net.bencode.filter.FunFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FunFilter</filter-name>
+        <url-pattern>*.dr</url-pattern>
+    </filter-mapping>
+
+</web-app>

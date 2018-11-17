@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" name="ant-spike-ejb">
+    <output-path>$PROJECT_DIR$/out/artifacts/ant_spike_ejb_ejb_exploded.rar</output-path>
+    <root id="archive" name="ant-spike-ejb.jar">
+      <element id="javaee-facet-resources" facet="ant-spike-ejb/ejb/EJB" />
+      <element id="module-output" name="ant-spike-ejb" />
+    </root>
+  </artifact>
+</component>

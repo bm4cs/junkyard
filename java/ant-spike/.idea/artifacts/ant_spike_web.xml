@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ant-spike-web">
+    <output-path>$PROJECT_DIR$/out/artifacts/ant_spike_web.war</output-path>
+    <root id="archive" name="ant-spike-web.war">
+      <element id="javaee-facet-resources" facet="ant-spike-web/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ant-spike-web" />
+          <element id="module-output" name="ant-spike-ejb" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="ant-spike-ejb/ejb/EJB" />
+    </root>
+  </artifact>
+</component>

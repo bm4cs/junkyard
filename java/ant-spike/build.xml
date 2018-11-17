@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ant-spike" default="build">
+
+     <!-- /////////////////////////////////////////
+     Includes a set of variables for the build
+     from the property file
+ ///////////////////////////////////////// -->
+    <property file="build.properties" />
+
+    <!-- Maintains the build version number automatically -->
+    <buildnumber file="build.number" />
+
+    <!-- Timestamp for the build -->
+    <tstamp>
+        <format property="TODAY" pattern="dd-MMMM-yyyy" />
+        <format property="TSTAMP" pattern="HH:mm:ss" />
+    </tstamp>
+
+    <!-- /////////////////////////////////////////
+    Variable Declarations
+///////////////////////////////////////// -->
+    <property name="build.version" value="${application.version}.${build.number}" />
+    <property name="versioned.ear.file" value="${application.name}-${application.version}.ear" />
+
+
+
+    <property name="ejb.name" value="ant-spike-ejb" />
+    <property name="web.name" value="ant-spike-web" />
+    <property name="common.name" value="ant-spike-common" />
+
+    <property name="ejb.dir" value="${ejb.name}" />
+    <property name="web.dir" value="${web.name}" />
+    <property name="lib.dir" value="${common.name}/lib" />
+
+
+    <property name="ejb.src.dir" value="${ejb.dir}/src" />
+    <property name="web.src.dir" value="${web.dir}/src" />
+    <property name="web.site.dir" value="${web.dir}/web" />
+
+    <property name="build.dir" value="ant-build" />
+    <property name="dist.dir" value="ant-dist" />
+    <property name="ejb.build.dir" value="${build.dir}/ejb" />
+    <property name="common.build.dir" value="${build.dir}/common" />
+    <property name="web.build.dir" value="${build.dir}/web" />
+    <property name="web.build.info.dir" value="${web.build.dir}/WEB-INF" />
+    <property name="web.build.classes.dir" value="${web.build.info.dir}/classes" />
+    <property name="web.build.lib.dir" value="${web.build.info.dir}/lib" />
+    <property name="dist.javadoc.dir" value="${dist.dir}/javadoc" />
+    <property name="dist.findbugs.dir" value="${dist.dir}/findbugs" />
+
+    <property name="findbugs.home" value="${lib.dir}/findbugs-3.0.0" />
+
+    <!-- Class path entries -->
+    <path id="jboss.classpath">
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/annotation/api/main/jboss-annotations-api_1.2_spec-1.0.0.Final.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/ejb/api/main/jboss-ejb-api_3.2_spec-1.0.0.Final.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/enterprise/api/main/cdi-api-1.1.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/inject/api/main/javax.inject-1.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/interceptor/api/main/jboss-interceptors-api_1.2_spec-1.0.0.Final.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar" />
+        <pathelement location="${jboss.home}/modules/system/layers/base/javax/servlet/jsp/api/main/jboss-jsp-api_2.3_spec-1.0.1.Final.jar" />
+    </path>
+
+    <!-- Required library class path entries -->
+    <path id="common.libs">
+        <pathelement location="${lib.dir}/logging/logback-classic-1.1.2.jar" />
+        <pathelement location="${lib.dir}/logging/logback-core-1.1.2.jar" />
+    </path>
+
+    <path id="common.classpath">
+        <path refid="common.libs" />
+        <path refid="jboss.classpath" />
+    </path>
+
+    <path id="ejb.classpath">
+        <path refid="jboss.classpath" />
+        <path refid="common.classpath" />
+    </path>
+
+    <path id="web.classpath">
+        <pathelement path="${ejb.build.dir}" />
+        <path refid="jboss.classpath" />
+        <path refid="common.classpath" />
+    </path>
+
+    <path id="findbugs.classpath">
+        <fileset dir="${findbugs.home}/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- Defines findbugs ant task -->
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.classpath" />
+
+    <!-- /////////////////////////////////////////
+General Targets
+///////////////////////////////////////// -->
+
+    <!-- /////////////////////////////////////////
+     Web Service
+     ///////////////////////////////////////// -->
+
+
+
+    <!-- /////////////////////////////////////////
+     EJB
+     ///////////////////////////////////////// -->
+    <target name="ejb-clean" depends="" description="Clean up the classes folder and any generated jars">
+        <delete dir="${ejb.build.dir}" failonerror="false" quiet="true" />
+        <delete dir="${common.build.dir}" failonerror="false" quiet="true" />
+        <delete failonerror="false" quiet="true">
+            <fileset file="${build.dir}/${ejb.name}.jar" />
+        </delete>
+    </target>
+
+    <target name="ejb-init" depends="ejb-clean" description="Setup required repositories for the ejb build">
+        <mkdir dir="${ejb.build.dir}" />
+    </target>
+
+    <target name="ejb-compile" depends="ejb-init" description="Compile main source java files for jars">
+        <javac destdir="${ejb.build.dir}" source="${javac.source}" target="${javac.target}" debug="${javac.debug}" failonerror="${javac.failonerror}">
+            <src path="${ejb.src.dir}" />
+            <exclude name="**/*Test.java"/>
+            <classpath refid="ejb.classpath" />
+        </javac>
+        <copy todir="${ejb.build.dir}/META-INF">
+            <fileset dir="${ejb.src.dir}/META-INF">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="ejb-assemble" depends="ejb-compile" description="Assemble the classes into jars">
+        <jar destfile="${build.dir}/${ejb.name}.jar" basedir="${ejb.build.dir}" />
+    </target>
+
+
+    <!-- /////////////////////////////////////////
+WAR
+///////////////////////////////////////// -->
+    <target name="war-clean" description="Clean up the classes folder under the web repository and generated war file">
+        <delete dir="${web.build.dir}" failonerror="false" quiet="true" />
+        <delete verbose="true">
+            <fileset file="${build.dir}/${web.name}.war" />
+        </delete>
+    </target>
+
+    <target name="war-init" depends="war-clean" description="Setup required repositories for the build">
+        <mkdir dir="${web.build.classes.dir}" />
+        <mkdir dir="${web.build.lib.dir}" />
+    </target>
+
+    <target name="war-compile" depends="war-init" description="Compile main source tree java files for the web">
+        <javac destdir="${web.build.classes.dir}" source="${javac.source}" target="${javac.target}" debug="${javac.debug}" failonerror="${javac.failonerror}">
+            <src path="${web.src.dir}" />
+            <classpath refid="web.classpath" />
+        </javac>
+    </target>
+
+    <target name="war-assemble" depends="war-compile" description="Assemble the web classes into a WAR">
+
+        <!-- Copies all the required files for the web component -->
+        <copy todir="${web.build.info.dir}">
+            <fileset dir="${web.site.dir}/WEB-INF">
+                <include name="*.xml" />
+                <include name="*.jsp" />
+            </fileset>
+        </copy>
+
+        <copy todir="${web.build.classes.dir}">
+            <fileset dir="${web.src.dir}">
+                <include name="**/*.xml" />
+                <include name="**/*.properties" />
+            </fileset>
+        </copy>
+
+        <zip destfile="${build.dir}/${web.name}.war" basedir="${web.build.dir}" />
+
+    </target>
+
+
+
+    <!-- /////////////////////////////////////////
+         EAR
+         ///////////////////////////////////////// -->
+    <target name="ear-clean" description="Clean up the distribution repository">
+        <delete dir="${dist.dir}" failonerror="false" quiet="true" />
+    </target>
+
+    <target name="ear-init" depends="ear-clean" description="Setup required repositories for the distribution">
+        <mkdir dir="${dist.dir}" />
+        <mkdir dir="${dist.dir}/lib" />
+        <mkdir dir="${dist.dir}/META-INF" />
+    </target>
+
+    <target name="ear-assemble" depends="ear-init" description="Assemble the ear from the child projects">
+
+
+        <!-- Copies the ejb,war and related libraries -->
+        <copy file="${build.dir}/${ejb.name}.jar" todir="${dist.dir}" />
+        <copy file="${build.dir}/${web.name}.war" todir="${dist.dir}" />
+
+        <copy todir="${dist.dir}/lib" flatten="true">
+            <fileset dir="${lib.dir}">
+                <include name="logging/logback-classic-1.1.2.jar" />
+                <include name="logging/logback-core-1.1.2.jar" />
+            </fileset>
+        </copy>
+
+        <!-- Generates the manifest file -->
+        <manifest file="${dist.dir}/META-INF/MANIFEST.MF">
+            <attribute name="Built-By" value="${user.name}" />
+            <section name="${application.name}">
+                <attribute name="Specification-Title" value="${ant.project.name}" />
+                <attribute name="Specification-Version" value="${application.version}" />
+                <attribute name="Specification-Vendor" value="${application.vendor}" />
+                <attribute name="Implementation-Title" value="${application.name}" />
+                <attribute name="Implementation-Version" value="${build.version} ${TODAY}, ${TSTAMP}" />
+                <attribute name="Implementation-Vendor" value="${application.vendor} " />
+            </section>
+        </manifest>
+
+        <zip destfile="${dist.dir}/${versioned.ear.file}" basedir="${dist.dir}" />
+
+    </target>
+
+
+    <!-- /////////////////////////////////////////
+JAVA DOC
+///////////////////////////////////////// -->
+
+    <target name="ant-spike-javadoc" depends="build">
+        <delete dir="${dist.javadoc.dir}" failonerror="false" quiet="true" />
+        <mkdir dir="${dist.javadoc.dir}" />
+        <javadoc destdir="${dist.javadoc.dir}" author="true" version="true" use="true" windowtitle="Ben's Ant Spike" package="true" useexternalfile="yes">
+            <fileset dir="${ejb.src.dir}" />
+            <fileset dir="${web.src.dir}" />
+            <!--<classpath refid="common.classpath" />-->
+            <tag description="To Do:" name="TODO" scope="all" />
+        </javadoc>
+    </target>
+
+
+    <!-- /////////////////////////////////////////
+Findbugs
+///////////////////////////////////////// -->
+    <target name="findbugs">
+        <delete dir="${dist.findbugs.dir}" failonerror="false" quiet="true" />
+        <mkdir dir="${dist.findbugs.dir}" />
+        <findbugs home="${findbugs.home}"
+                  output="html"
+                  effort="max"
+                  reportLevel="low"
+                  stylesheet="fancy.xsl"
+                  outputFile="${dist.findbugs.dir}/ant-spike-findbugs.html" >
+            <auxClasspath refid="common.classpath" />
+            <sourcePath path="${ejb.src.dir}" />
+            <sourcePath path="${web.src.dir}" />
+            <class location="${build.dir}/${ejb.dir}.jar" />
+            <class location="${build.dir}/${web.dir}.war" />
+        </findbugs>
+    </target>
+
+
+
+    <!-- /////////////////////////////////////////
+Main Tasks
+///////////////////////////////////////// -->
+
+    <target name="clean" description="Clean up all the build directories">
+        <delete dir="${build.dir}" failonerror="false" quiet="true" />
+        <delete dir="${dist.dir}" failonerror="false" quiet="true" />
+    </target>
+
+    <target name="build" description="Package the EAR" depends="ejb-assemble, war-assemble, ear-assemble" />
+
+    <target name="rebuild" description="Clean up the output and repackage the EAR from the scratch" depends="clean, build" />
+
+    <target name="javadoc" description="Generate java docs" depends="ant-spike-javadoc" />
+
+</project>
