@@ -1,0 +1,45 @@
+% !TEX TS-program = luatex
+% Awesome Source CV LaTeX Template
+%
+% This template has been downloaded from:
+% https://github.com/darwiin/awesome-neue-latex-cv
+%
+% Author:
+% Christophe Roger (Darwiin)
+%
+% Template license:
+% CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+
+\documentclass[localFont,alternative]{yaac-another-awesome-cv}
+
+\name{Benjamin}{Simmonds}
+\tagline{Software Engineer / Solution Architect}
+\photo{2.5cm}{darwiin}
+\socialinfo{
+  \linkedin{benysimmo}
+  \github{bm4cs}\\
+  \smartphone{+0402 529 144}
+  \email{ben@bencode.net}\\
+  \address{25 Costello Circuit, Calwell, ACT, 2905}\\
+  \infos{Born in 1983 (35 years) in Christchurch, NZ}
+}
+
+\begin{document}
+
+	\makecvheader
+
+	\makecvfooter
+		{\textsc{\today}} % \selectlanguage{english}\today
+    {\textsc{Benjamin Simmonds - CV}}
+		{\thepage}
+
+	\input{section_headline_archi}
+	\input{section_competences}				% Section compétence
+	\input{section_experience_short}		% Section expérience
+	\input{section_langues}					% Section langues
+	\input{section_scolarite}				% Section scholarité
+	%\input{section_interets}				% Section intérêts
+	\input{section_references} 				% Section références
+
+
+\end{document}
